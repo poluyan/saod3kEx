@@ -62,6 +62,8 @@ Fail! The output file must be specified!
 
 ### LZ77 
 
+[example1](https://www.researchgate.net/publication/322296027/figure/fig4/AS:579960579346433@1515284785811/An-example-of-LZ77-encoding.png)
+
 ```
 
 1. bbbcccacab, 6
