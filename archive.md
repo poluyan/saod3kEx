@@ -100,3 +100,39 @@ Fail! The output file must be specified!
 15. <0,0,b> <1,1,a> <2,1,c> <3,3,c> <4,0,a> 
 
 ```
+
+# LZ78
+
+```
+1. ccbcbaaabb
+2. abaabccbcb
+3. abacbcaccb
+4. cbbcaacaca
+5. bddcdcdaba
+6. bacabcacac
+7. bcbcbcaaab
+8. bbcaacbccb
+9. ccbcbbacab
+10. bbdcbddccb
+11. babdbdbada
+12. ccdcbdcbdd
+13. bbcbcaaddd
+14. bbaacabbac
+15. bdabdacacc
+ 
+1. 0 c, 1 a, 1 b, 0 b, 4 b, 1 a 
+2. 0 b, 0 c, 2 d, 1 a, 3 b, 0 a 
+3. 0 c, 0 a, 2 d, 3 b, 2 c, 0 b 
+4. 0 b, 1 c, 0 a, 3 c, 1 a, 1 a 
+5. 0 d, 0 a, 0 b, 3 d, 2 d, 4 b 
+6. 0 b, 1 c, 0 c, 3 a, 0 a, 2 a 
+7. 0 c, 0 d, 1 d, 0 b, 3 b, 2 c 
+8. 0 b, 0 a, 1 d, 2 a, 1 b, 2 d 
+9. 0 b, 0 c, 2 b, 1 a, 2 a, 2 a 
+10. 0 c, 0 a, 1 b, 2 b, 1 a, 1 b 
+11. 0 c, 0 a, 1 a, 2 b, 0 b, 3 b 
+12. 0 a, 0 c, 2 b, 0 b, 1 c, 5 b 
+13. 0 d, 0 c, 0 a, 3 d, 3 b, 5 c 
+14. 0 c, 0 a, 2 b, 1 a, 0 b, 4 c 
+15. 0 a, 0 b, 0 c, 1 c, 4 c, 1 b 
+```
