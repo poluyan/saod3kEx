@@ -101,7 +101,7 @@ Fail! The output file must be specified!
 
 ```
 
-# LZ78
+### LZ78
 
 ```
 1. ccbcbaaabb
