@@ -136,3 +136,38 @@ Fail! The output file must be specified!
 14. 0 c, 0 a, 2 b, 1 a, 0 b, 4 c 
 15. 0 a, 0 b, 0 c, 1 c, 4 c, 1 b 
 ```
+
+### LZW
+```
+1) bacacbaacb		
+2) bbbacacbba		
+3) aaacaacca		
+4) acacacaca		
+5) aaacccaac		
+6) acacacabac		
+7) ccacacaccc		
+8) babababcab		
+9) bbbcccabbc		
+10) abcababaab	
+11) cacaaccaa		
+12) cacabcabbc	
+13) bbbacbbabb	
+14) babacbabab	
+15) abbbabcabc	
+
+1) 0, 1, 0, 2, 3, 6
+2) 0, 1, 2, 3, 4, 7
+3) 2, 0, 1, 4, 5, 7
+4) 1, 0, 2, 3, 5, 0
+5) 0, 2, 1, 4, 6, 4
+6) 0, 1, 2, 3, 0, 4
+7) 0, 2, 3, 5, 1, 4
+8) 1, 0, 2, 4, 3
+9) 0, 1, 1, 2, 4, 6
+10) 2, 3, 1, 0, 4, 6
+11) 1, 2, 4, 3, 0, 5
+12) 1, 0, 4, 2, 6, 5
+13) 0, 1, 3, 2, 5, 0
+14) 0, 1, 3, 2, 6, 5
+15) 0, 1, 3, 2, 4
+```
