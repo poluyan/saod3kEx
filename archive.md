@@ -13,6 +13,35 @@ ASCII таблица - 128 символов, 8-битная кодировка, 
 6. Алгоритм Хаффмана
 
 
+### Пример с bitset
+```cpp
+#include <bitset>
+#include <iostream>
+#include <string>
+#include <fstream>
+int main() {
+    std::string bits = "10010101";
+    std::bitset<8> bs;
+    for(int i = 0; i < 8; i++)
+        bs[7-i] = bits[i] == '0' ? 0 : 1;
+    std::cout << bs.to_string() << std::endl;
+    std::cout << bits << std::endl;
+    
+    std::ofstream fOut("out.zippa", std::ios::binary);
+    fOut << static_cast<char>(bs.to_ulong());
+    fOut.close();
+    
+    std::ifstream fIn("out.zippa", std::ios::binary);
+    char ch;
+    fIn >> ch;
+    fIn.close();
+    
+    std::bitset<8> bsin(ch);
+    std::cout << bsin.to_string() << std::endl;
+}
+```
+
+
 ### Результат работы
 
 Программа-архиватор, консольное приложение, реализованное на языке C++, позволяющее создавать файл-архив для указанного текстового ASCII файла. 
