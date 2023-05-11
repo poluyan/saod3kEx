@@ -139,35 +139,35 @@ Fail! The output file must be specified!
 
 ### LZW
 ```
-1) bacccaccca	
-2) abcabbcbcb	
-3) abbbabcabc	
-4) acbcbcbccb	
-5) cababbabab	
-6) acaccabacc	
-7) abbbabcbba	
-8) bcccbcaccb	
-9) cccbaccbac	
-10) bbbacacbba	
-11) acaccaaccb	
-12) babababcab	
-13) baaacccaac	
-14) bbbcccabbc	
+1) bcbcabca		
+2) babababc		
+3) cccbaccb		
+4) cabababa		
+5) bcacacac		
+6) cccabcca		
+7) cacacacb		
+8) abcbcbcb		
+9) cccaccab		
+10) cbacbcbc	
+11) bbbcbbca	
+12) ababcabc	
+13) aaabaabc	
+14) acccbccb	
+15) bbbabbac	
 
-1) 		0, 1, 2, 3, 6, 3
-2) 		2, 0, 3, 1, 5, 6
-3) 		1, 3, 0, 2, 4, 3
-4) 		0, 1, 2, 5, 4, 7
-5) 		0, 2, 4, 1, 5, 4
-6) 		0, 2, 3, 5, 1, 4
-7) 		1, 0, 3, 2, 3, 7
-8) 		0, 2, 3, 5, 1, 3
-9) 		1, 0, 2, 4, 3, 6
-10) 		2, 0, 1, 4, 6, 5
-11) 		0, 1, 3, 2, 6, 5
-12) 		1, 0, 4, 2, 3, 5
-13) 		1, 0, 3, 3, 2, 6
-14) 		2, 1, 0, 3, 6, 4
-15) 		1, 2, 3, 3, 0, 5
-16) 		1, 2, 4, 0, 3, 7
+1) 	2, 3, 1, 4, 0
+2) 	0, 2, 3, 1, 5
+3) 	0, 3, 2, 1, 4
+4) 	2, 1, 3, 0, 5
+5) 	0, 1, 3, 5, 2
+6) 	1, 2, 3, 5, 0
+7) 	0, 3, 2, 4, 1
+8) 	1, 0, 2, 3, 6
+9) 	1, 3, 0, 2, 4
+10) 2, 1, 0, 4, 6
+11) 1, 3, 2, 0, 4
+12) 1, 0, 2, 4, 6
+13) 2, 1, 4, 0, 5
+14) 1, 2, 0, 3, 6
+15) 0, 2, 3, 5, 1
 ```
