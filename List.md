@@ -41,7 +41,7 @@ int main() {
   std::cout << lst.size() << ' ' << std::boolalpha << lst.empty() << std::endl;
 }  // деструктор освободит оставшиеся узлы
 
-//// Вывод приложения
+// // Вывод приложения
 // true
 // a -> b -> c -> d -> e
 // v -> w -> x -> y -> z -> a -> b -> c -> d -> e
