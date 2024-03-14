@@ -12,7 +12,7 @@ void triedict(const std::string &text, std::string word) { }
 
 Интерактивно: https://www.cs.usfca.edu/~galles/visualization/Trie.html
 
-Пример построения дерева для строки `are they the most fun and these are a fun`. Количество вхождений: are 2, they 1, the 1, most 1, fun 2, and 2, these 1, a 1. В каждом узле дерева храниться символ, указатели на дочерние узлы, 
+Пример построения дерева для строки `are they the most fun and these are a fun`. Количество вхождений: are 2, they 1, the 1, most 1, fun 2, and 1, these 1, a 1. В каждом узле дерева храниться символ, указатели на дочерние узлы, 
 маркер конца слова и счетчик количества вхождений слова. Маркер конца слова можете связать со счетчиком.
 
 <img src="https://github.com/poluyan/saod3kEx/blob/main/saod_trie.png" width="500" />
