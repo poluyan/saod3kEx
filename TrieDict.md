@@ -52,7 +52,7 @@ void umap(const std::string &text, std::string word)
 
 struct hash_pair
 {
-  std::size_t operator()(const std::pair<const char*, size_t>& p) const
+  size_t operator()(const std::pair<const char*, size_t>& p) const
   {
     return std::hash<std::string_view> {}(std::string_view(p.first, p.second));
   }
@@ -69,7 +69,7 @@ struct equal_pair
 void umap_slice(const std::string &text, std::string word)
 {
   using namespace std;
-  std::unordered_map<std::pair<const char*, size_t>, size_t, hash_pair, equal_pair> dict;
+  unordered_map<pair<const char*, size_t>, size_t, hash_pair, equal_pair> dict;
   pair<const char*, size_t> p;
   for(size_t i = 0, j = 0; i < text.size(); i++) // кроме последнего слова
   {
@@ -101,12 +101,12 @@ int main()
   auto time_one = chrono::high_resolution_clock::now();
   umap(text, word);
   auto time_two = chrono::high_resolution_clock::now();
-  cout << "umap\t" << std::chrono::duration<double>(time_two - time_one) << endl;
+  cout << "umap\t" << chrono::duration<double>(time_two - time_one) << endl;
 
   time_one = chrono::high_resolution_clock::now();
   umap_slice(text, word);
   time_two = chrono::high_resolution_clock::now();
-  cout << "smap\t" << std::chrono::duration<double>(time_two - time_one) << endl;
+  cout << "smap\t" << chrono::duration<double>(time_two - time_one) << endl;
 }
 //clang++ -std=c++23 -fmodules -O3 -march=native -stdlib=libc++ main.cpp
 //dict size: 786353
