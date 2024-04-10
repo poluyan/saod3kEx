@@ -50,25 +50,6 @@ void umap(const std::string &text, std::string word)
   cout << word << ": " << dict[word] << endl;
 }
 
-void umaps(const std::string &text, std::string word)
-{
-  using namespace std;
-  unordered_map<std::string_view, size_t> dict;
-  string str = "";
-  for(const auto & ch : text) // кроме последнего слова
-  {
-    if((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '\'')
-      str += ch;
-    else if(str.size() > 0)
-    {
-      ++dict[str];
-      str = "";
-    }
-  }
-  cout << "\ndict size: " << dict.size() << endl;
-  cout << word << ": " << dict[word] << endl;
-}
-
 struct hash_pair
 {
   std::size_t operator()(const std::pair<const char*, size_t>& p) const
