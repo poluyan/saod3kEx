@@ -29,54 +29,119 @@ $ grep -o '\<wiki\>' engwiki_ascii.txt | wc -l
 Для некоторых слов подсчет через `grep` может отличаться, но незначительно. Файл `engwiki_ascii.zip` лежит в корне репозитория.
 
 ```cpp
-#include <iostream>
-#include <string>
-#include <chrono>
-#include <unordered_map>
-#include <fstream>
-//#include <cctype> //isalpha
+import std;
 
 void umap(const std::string &text, std::string word)
 {
- using namespace std;
- unordered_map<std::string, size_t> dict;
- string str = "";
- for(const auto & ch : text) // кроме последнего слова
- {
-  //if(isalpha(ch) || ch == '\'')
-  if((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '\'')
-   str += ch;
-  else if(str.size() > 0)
-  {
-   ++dict[str];
-   str = "";
-   }
- }
- cout << "\ndict size: " << dict.size() << endl;
- cout << word << ": " << dict[word] << endl;
+	using namespace std;
+	unordered_map<std::string, size_t> dict;
+	string str = "";
+	for(const auto & ch : text) // кроме последнего слова
+	{
+		if((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '\'')
+			str += ch;
+		else if(str.size() > 0)
+		{
+			++dict[str];
+			str = "";
+		}
+	}
+	cout << "\ndict size: " << dict.size() << endl;
+	cout << word << ": " << dict[word] << endl;
+}
+
+void umaps(const std::string &text, std::string word)
+{
+	using namespace std;
+	unordered_map<std::string_view, size_t> dict;
+	string str = "";
+	for(const auto & ch : text) // кроме последнего слова
+	{
+		if((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '\'')
+			str += ch;
+		else if(str.size() > 0)
+		{
+			++dict[str];
+			str = "";
+		}
+	}
+	cout << "\ndict size: " << dict.size() << endl;
+	cout << word << ": " << dict[word] << endl;
+}
+
+
+char buffer[1000];
+struct hash_pair
+{
+	std::size_t operator()(const std::pair<const char*, size_t>& p) const
+	{
+		//std::copy(p.first, p.first + p.second, buffer);
+		std::memcpy(buffer, p.first, p.second);
+		buffer[p.second] = 0;
+		return std::hash<std::string> {}(buffer);
+	}
+};
+
+struct equal_pair
+{
+	bool operator()(const std::pair<const char*, size_t>& lhs, const std::pair<const char*, size_t>& rhs) const
+	{
+		return std::strncmp(lhs.first, rhs.first, rhs.second) == 0;
+	}
+};
+
+void umap_slice(const std::string &text, std::string word)
+{
+	using namespace std;
+	std::unordered_map<std::pair<const char*, size_t>, size_t, hash_pair, equal_pair> dict;
+	string str = "";
+	pair<const char*, size_t> p;
+	for(size_t i = 0; i < text.size(); i++) // кроме последнего слова
+	{
+		if((text[i] >= 'a' && text[i] <= 'z') || (text[i] >= 'A' && text[i] <= 'Z') || text[i] == '\'')
+			str += text[i];
+		else if(str.size() > 0)
+		{
+			p.first = text.c_str() + i - str.length();
+			p.second = str.length();
+			++dict[p];
+			str = "";
+		}
+	}
+	cout << "\ndict size: " << dict.size() << endl;
+	cout << word << ": " << dict[ {word.c_str(), word.length()}] << endl;
 }
 
 int main()
 {
- using namespace std;
- string text;
- ifstream fin("engwiki_ascii.txt", ios::binary);
- if(!fin.is_open())
- {
-  cout << "not open!" << endl;
-  return 0;
- }
- text.append((istreambuf_iterator<char>(fin)), istreambuf_iterator<char>());
+	using namespace std;
+	string text;
+	ifstream fin("engwiki_ascii.txt", ios::binary);
+	if(!fin.is_open())
+	{
+		cout << "not open!" << endl;
+		return 0;
+	}
+	text.append((istreambuf_iterator<char>(fin)), istreambuf_iterator<char>());
 
- string word = "wiki"; // слово которое ищем
- auto time_one = chrono::steady_clock::now();
- umap(text, word);
- auto time_two = chrono::steady_clock::now();
- cout << "umap\t" << chrono::duration_cast<chrono::microseconds>(time_two - time_one).count()/1e6 << " sec\n";
+	string word = "wiki"; // слово которое ищем
+	auto time_one = chrono::high_resolution_clock::now();
+	umap(text, word);
+	auto time_two = chrono::high_resolution_clock::now();
+	cout << "umap\t" << std::chrono::duration<double>(time_two - time_one) << endl;
+
+	time_one = chrono::high_resolution_clock::now();
+	umap_slice(text, word);
+	time_two = chrono::high_resolution_clock::now();
+	cout << "smap\t" << std::chrono::duration<double>(time_two - time_one) << endl;
 }
-// $ ./a.out 
-// dict size: 786353
-// wiki: 491
-// umap	6.31305 sec
+//clang++ -std=c++23 -fmodules -O3 -stdlib=libc++ main.cpp
+//dict size: 786353
+//wiki: 491
+//umap	2.55394s
+
+//dict size: 786353
+//wiki: 491
+//smap	3.67004s
 ```
 
