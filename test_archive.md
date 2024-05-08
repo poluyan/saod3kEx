@@ -75,37 +75,37 @@
 15. 0 a, 0 b, 0 c, 1 c, 4 c, 1 b 
 ```
 
-### LZW
+### LZW, alphabet [a 0, b 1, c 2]
 ```
-1) bcbcabca		
-2) babababc		
-3) cccbaccb		
-4) cabababa		
-5) bcacacac		
-6) cccabcca		
-7) cacacacb		
-8) abcbcbcb		
-9) cccaccab		
-10) cbacbcbc	
-11) bbbcbbca	
-12) ababcabc	
-13) aaabaabc	
-14) acccbccb	
-15) bbbabbac	
+1. bcbcabca
+2. babababc
+3. cccbaccb
+4. cabababa
+5. bcacacac
+6. cccabcca
+7. cacacacb
+8. abcbcbcb
+9. cccaccab
+10. cbacbcbc
+11. bbbcbbca
+12. ababcabc
+13. aaabaabc
+14. acccbccb
+15. bbbabbac
 
-1) 2, 3, 1, 4, 0
-2) 0, 2, 3, 1, 5
-3) 0, 3, 2, 1, 4
-4) 2, 1, 3, 0, 5
-5) 0, 1, 3, 5, 2
-6) 1, 2, 3, 5, 0
-7) 0, 3, 2, 4, 1
-8) 1, 0, 2, 3, 6
-9) 1, 3, 0, 2, 4
-10) 2, 1, 0, 4, 6
-11) 1, 3, 2, 0, 4
-12) 1, 0, 2, 4, 6
-13) 2, 1, 4, 0, 5
-14) 1, 2, 0, 3, 6
-15) 0, 2, 3, 5, 1
+1. 	2, 3, 1, 4, 0
+2. 	0, 2, 3, 1, 5
+3. 	0, 3, 2, 1, 4
+4. 	2, 1, 3, 0, 5
+5. 	0, 1, 3, 5, 2
+6. 	1, 2, 3, 5, 0
+7. 	0, 3, 2, 4, 1
+8. 	1, 0, 2, 3, 6
+9. 	1, 3, 0, 2, 4
+10. 	2, 1, 0, 4, 6
+11. 	1, 3, 2, 0, 4
+12. 	1, 0, 2, 4, 6
+13. 	2, 1, 4, 0, 5
+14. 	1, 2, 0, 3, 6
+15. 	0, 2, 3, 5, 1
 ```
