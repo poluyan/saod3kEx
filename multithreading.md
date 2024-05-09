@@ -1,78 +1,111 @@
-```cpp
-import std;
+## Многопоточность и задача поиска количества простых числе в списке
 
+<img src="https://github.com/poluyan/saod3kEx/blob/main/block.png" width="1000" />
+
+## Основная задача
+
+Реализовать многопоточную версию подсчета простых чисел в списке с использованием одного из примитива синхронизации (mutex/atomic). Использование execution policy (`std::execution::par`) и parallel STL запрещается.
+
+## Требования
+
+Отчет в формате двух картинок, которые демонстрируют ускорение и эффективность вашей реализации по сравнению с блочной версией (можно exel или google таблицы).
+
+```cpp
+#include <algorithm>
+#include <chrono>
+#include <thread>
+#include <iostream>
+#include <random>
+#include <vector>
+#include <limits>
+#include <unordered_map>
+//#include <mutex>
+//#include <queue>
+
+// обязательно такая рекурсивная функция (медленная)
 bool isPrime(size_t n, size_t i = 2)
 {
-	if(n <= 2)
-		return (n == 2) ? true : false;
-	if(n % i == 0)
-		return false;
-	if(i * i > n)
-		return true;
-	return isPrime(n, i + 1);
+  if(n <= 2)
+    return (n == 2) ? true : false;
+  if(n % i == 0)
+    return false;
+  if(i * i > n)
+    return true;
+  return isPrime(n, i + 1);
 }
 
 size_t single(const std::vector<size_t>& v)
 {
-	return std::count_if(v.begin(), v.end(), [](const auto &el)
-	{
-		return isPrime(el);
-	});
+  return std::count_if(v.begin(), v.end(), [](const auto &el)
+  {
+    return isPrime(el);
+  });
 }
 
-size_t block(const std::vector<size_t>& v, size_t n_threads)
+// примитивная блочная реализация, каждый поток работает со своей частью списка
+size_t block_way(const std::vector<size_t>& v, size_t n_threads)
 {
-	std::vector<size_t> res(n_threads);
-	std::vector<std::thread> threads(n_threads);
+  std::vector<size_t> results(n_threads);
+  auto lambda = [&v, &results](size_t a, size_t b, size_t thread_id)
+  {
+    auto sum = std::count_if(v.begin() + a, v.begin() + b, [](const auto &el)
+    {
+      return isPrime(el);
+    });
+    results[thread_id] = sum;
+  };
 
-	auto lambda = [&v, &res](size_t a, size_t b, size_t th_id)
-	{
-		res[th_id] = std::count_if(v.begin() + a, v.begin() + b, [](const auto &el)
-		{
-			return isPrime(el);
-		});
-	};
+  std::vector<std::thread> threads(n_threads);
+  int part_size = v.size() / n_threads, a = 0, b = 0;
+  for(int thread_id = 0; thread_id != n_threads; thread_id++, a = b)
+  {
+    b = (thread_id == n_threads - 1) ? v.size() : a + part_size;
+    threads[thread_id] = std::thread(lambda, a, b, thread_id);
+  }
 
-	size_t part_size = v.size() / n_threads, a = 0, b = 0;
-	for(size_t thread_id = 0; thread_id < n_threads; thread_id++, a = b)
-	{
-		b = (thread_id == n_threads - 1) ? v.size() : a + part_size;
-		//std::cout << a << ' ' << b << std::endl;
-		threads[thread_id] = std::thread(lambda, a, b, thread_id);
-	}
+  for(auto& t : threads)
+    t.join();
 
-	for(auto & t : threads)
-		t.join();
+  return std::accumulate(results.begin(), results.end(), 0);
+}
 
-	return std::accumulate(res.begin(), res.end(), 0);
+size_t mutex_way(const std::vector<size_t>& v, size_t n_threads)
+{
+  // ваша реализация
+  return 0;
 }
 
 int main()
 {
-	std::vector<size_t> v(5'00);
-	std::mt19937_64 gen;
-	gen.seed(2);
-	std::uniform_int_distribution<size_t> d(1,
-											std::numeric_limits<size_t>::max()/10);
-	for(auto & item : v)
-		item = d(gen);
+  // список, заполненный случайными натуральными числами
+  std::vector<size_t> v(1680);
+  std::mt19937_64 gen;
+  gen.seed(2);
+  std::uniform_int_distribution<size_t> dp(1, std::numeric_limits<size_t>::max()/20);
+  for(auto & item : v)
+    item = dp(gen);
 
-	auto time_one = std::chrono::high_resolution_clock::now();
-	auto single_count = single(v);
-	//std::cout << block(v, 4) << std::endl;
-	auto time_two = std::chrono::high_resolution_clock::now();
-	auto single_time = std::chrono::duration_cast<std::chrono::milliseconds>(time_two - time_one).count();
-	for(int i = 2; i <= 4; i++)
-	{
-			time_one = std::chrono::high_resolution_clock::now();
-			auto block_count = block(v, i);
-			//std::cout << block(v, 4) << std::endl;
-			time_two = std::chrono::high_resolution_clock::now();
-			auto block_time = std::chrono::duration_cast<std::chrono::milliseconds>(time_two - time_one).count();
-	
-			std::cout << i << '\t' << single_time << '\t' << block_time << '\t' <<
-			single_count << '\t' << block_count << std::endl;
-	}
+  // однопоточная версия поиска простых чисел
+  auto t1 = std::chrono::high_resolution_clock::now();
+  auto nsingle = single(v);
+  auto t2 = std::chrono::high_resolution_clock::now();
+  auto single_time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+  std::cout << 1 << '\t' << single_time << '\t' << single_time << '\t' << single_time << std::endl;
+
+  // i - число потоков
+  for(size_t i = 2; i <= 8; i += 1)
+  {
+    t1 = std::chrono::high_resolution_clock::now();
+    auto nblock = block_way(v, i);
+    t2 = std::chrono::high_resolution_clock::now();
+    auto block_time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+
+    t1 = std::chrono::high_resolution_clock::now();
+    auto nmutex = mutex_way(v, i);
+    t2 = std::chrono::high_resolution_clock::now();
+    auto mutex_time = std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count();
+
+    std::cout << i << '\t' << single_time << '\t' << block_time << '\t' << mutex_time << '\t' << nsingle << '\t' << nblock << '\t' << nmutex << std::endl;
+  }
 }
-
 ```
