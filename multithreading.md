@@ -1,6 +1,6 @@
 ## Многопоточность и задача поиска количества простых чисел в списке
 
-<img src="https://github.com/poluyan/saod3kEx/blob/main/bl.png" width="1000" />
+<img src="https://github.com/poluyan/saod3kEx/blob/main/block.png" width="1000" />
 
 ## Основная задача
 
@@ -29,19 +29,19 @@
 //#include <mutex>
 //#include <queue>
 
-// обязательно такая рекурсивная функция (медленная)
-bool isPrime(size_t n, size_t i = 2)
+typedef unsigned long long int bigint;
+
+bool isPrime(bigint n)
 {
-  if(n <= 2)
-    return n == 2;
-  if(n % i == 0)
+  if (n <= 1)
     return false;
-  if(i * i > n)
-    return true;
-  return isPrime(n, i + 1);
+  for (bigint i = 2; i <= n / 2; i++)
+    if (n % i == 0)
+      return false;
+  return true;
 }
 
-size_t single(const std::vector<size_t>& v)
+size_t single(const std::vector<bigint>& v)
 {
   return std::count_if(v.begin(), v.end(), [](const auto &el)
   {
@@ -50,7 +50,7 @@ size_t single(const std::vector<size_t>& v)
 }
 
 // примитивная блочная реализация, каждый поток работает со своей частью списка
-size_t block_way(const std::vector<size_t>& v, size_t n_threads)
+size_t block_way(const std::vector<bigint>& v, size_t n_threads)
 {
   std::vector<size_t> results(n_threads);
   auto lambda = [&v, &results](size_t a, size_t b, size_t thread_id)
@@ -76,7 +76,7 @@ size_t block_way(const std::vector<size_t>& v, size_t n_threads)
   return std::accumulate(results.begin(), results.end(), 0);
 }
 
-size_t mutex_way(const std::vector<size_t>& v, size_t n_threads)
+size_t mutex_way(const std::vector<bigint>& v, size_t n_threads)
 {
   // ваша реализация
   return 0;
@@ -85,10 +85,10 @@ size_t mutex_way(const std::vector<size_t>& v, size_t n_threads)
 int main()
 {
   // список, заполненный случайными натуральными числами
-  std::vector<size_t> v(1680);
+  std::vector<bigint> v(1680);
   std::mt19937_64 gen;
   gen.seed(2);
-  std::uniform_int_distribution<size_t> dp(1, std::numeric_limits<size_t>::max()/20);
+  std::uniform_int_distribution<bigint> dp(1, bigint(std::numeric_limits<int>::max()));
   for(auto & item : v)
     item = dp(gen);
 
