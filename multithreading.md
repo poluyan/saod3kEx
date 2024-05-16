@@ -1,6 +1,6 @@
 ## Многопоточность и задача поиска количества простых чисел в списке
 
-<img src="https://github.com/poluyan/saod3kEx/blob/main/block.png" width="1000" />
+<img src="https://github.com/poluyan/saod3kEx/blob/main/bl.png" width="1000" />
 
 ## Основная задача
 
