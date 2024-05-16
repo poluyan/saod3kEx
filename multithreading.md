@@ -85,9 +85,9 @@ size_t mutex_way(const std::vector<bigint>& v, size_t n_threads)
 int main()
 {
   // список, заполненный случайными натуральными числами
-  std::vector<bigint> v(1680);
+  std::vector<bigint> v(2520);
   std::mt19937_64 gen;
-  gen.seed(2);
+  gen.seed(1);
   std::uniform_int_distribution<bigint> dp(1, bigint(std::numeric_limits<int>::max()));
   for(auto & item : v)
     item = dp(gen);
